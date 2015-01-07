@@ -1,9 +1,15 @@
 package se.patrikbergman.java.concurrency.volatil;
 
-
-public class VolatileExample {
-
-    private static volatile int nrOfReleasedRecords = 0;
+/**
+ * http://java.dzone.com/articles/java-volatile-keyword-0:
+ * So what happens? Each thread has its own stack, and so its own copy of variables it can access.
+ * When the thread is created, it copies the value of all accessible variables in its own memory.
+ * The volatile keyword is used to say to the jvm "Warning, this variable may be modified in an other Thread".
+ * Without this keyword the JVM is free to make some optimizations, like never refreshing those local copies in
+ * some threads. The volatile force the thread to update the original variable for each variable. The volatile
+ * keyword could be used on every kind of variable, either primitive or objects!
+ */
+public class HardcorePunkRealm {
 
     static class MinorThreatFan extends Thread {
         private int nrOfPurchasedRecords = 0;
@@ -11,7 +17,7 @@ public class VolatileExample {
         @Override
         public void run() {
             while(true) {
-                if(nrOfPurchasedRecords < nrOfReleasedRecords) {
+                if(nrOfPurchasedRecords < MinorThreat.nrOfReleasedRecords) {
                     buyLatestRecord();
                 }
             }
@@ -24,8 +30,8 @@ public class VolatileExample {
 
     }
 
-
     static class MinorThreat extends Thread {
+        static volatile int nrOfReleasedRecords = 0;
 
         @Override
         public void run() {
@@ -50,9 +56,11 @@ public class VolatileExample {
     }
 
 
-    public static void main(String[] args) {
-        new MinorThreatFan().start();
-        new MinorThreat().start();
+    public static void main(String[] args) throws InterruptedException {
+        MinorThreatFan minorThreatFan = new MinorThreatFan();
+        minorThreatFan.start();
+        MinorThreat minorThreat = new MinorThreat();
+        minorThreat.start();
     }
 
 }
