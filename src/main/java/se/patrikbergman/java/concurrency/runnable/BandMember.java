@@ -1,7 +1,5 @@
 package se.patrikbergman.java.concurrency.runnable;
 
-import org.apache.commons.lang3.RandomUtils;
-
 class BandMember extends Thread {
     private final String name;
     private final long initialSleepTime;
@@ -13,40 +11,54 @@ class BandMember extends Thread {
     }
 
     public void run() {
-        doSleep(initialSleepTime);
+//        doSleep(initialSleepTime);
+        doWait(initialSleepTime);
         addressFellowBandMember();
     }
 
     void addressFellowBandMember() {
-        System.out.printf("BandMember %s is addressing fellow band member %s%n", name, fellowBandMember.getFirstname());
-        fellowBandMember.address("Hi from " + name);
+        System.out.printf("BandMember %s is addressing fellow band member %s%n", this.getFirstnameAndThreadName(),
+                fellowBandMember.getFirstnameAndThreadName());
+        fellowBandMember.address("Hi from " + this.getFirstnameAndThreadName());
     }
 
     /**
      * Invoked by other BandMembers
      */
     String address(String message) {
-        System.out.printf("BandMember %s received message '%s'%n", name, message);
-        return "Response message from " + name;
+        if(this.getState().equals(State.TIMED_WAITING)) {
+            System.out.printf("BandMember %s received message while waiting...%n", this.getFirstnameAndThreadName());
+        }
+        System.out.printf("BandMember %s received message '%s'%n", this.getFirstnameAndThreadName(), message);
+        return "Response message from " + this.getFirstnameAndThreadName();
     }
 
-    public String getFirstname()  {
-        return name;
+    String getFirstnameAndThreadName()  {
+        return name + " in " + getName();
     }
 
     void setFellowBandMember(BandMember fellowBandMember) {
         this.fellowBandMember = fellowBandMember;
     }
 
-    private void randomSleep() {
-        doSleep(RandomUtils.nextLong(1000, 5000));
-    }
-
     private void doSleep(long sleepTime) {
         try {
-            Thread.sleep(sleepTime);
+            sleep(sleepTime);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            System.err.printf("%s was interrupted during sleep", getFirstnameAndThreadName());
         }
     }
+
+    private void doWait(long waitTime) {
+        try {
+            sleep(waitTime);
+        } catch (InterruptedException e) {
+            System.err.printf("%s was interrupted during wait", getFirstnameAndThreadName());
+        }
+    }
+
+//    private void randomSleep() {
+//        doSleep(RandomUtils.nextLong(1000, 5000));
+//    }
+
 }

@@ -11,5 +11,6 @@ public class BandApplication {
 
         john.start();
         paul.start();
+
     }
 }
