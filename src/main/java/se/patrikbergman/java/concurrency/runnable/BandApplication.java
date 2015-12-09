@@ -1,6 +1,6 @@
 package se.patrikbergman.java.concurrency.runnable;
 
-public class BandApplication {
+class BandApplication {
 
     public static void main(String args[]) {
         BandMember john = new BandMember("John", 5000);
