@@ -7,8 +7,9 @@ package se.patrikbergman.java.concurrency.volatil;
  * When the thread is created, it copies the value of all accessible variables in its own memory.
  * The volatile keyword is used to say to the jvm "Warning, this variable may be modified in an other Thread".
  * Without this keyword the JVM is free to make some optimizations, like never refreshing those local copies in
- * some threads. The volatile force the thread to update the original variable for each variable. The volatile
- * keyword could be used on every kind of variable, either primitive or objects!
+ * some threads.
+ * The volatile force the thread to update the original variable for each variable.
+ * The volatile keyword could be used on every kind of variable, either primitive or objects!
  *
  * Try running this program with and without volatile MinorThreat.nrOfReleasedRecords!
  */
