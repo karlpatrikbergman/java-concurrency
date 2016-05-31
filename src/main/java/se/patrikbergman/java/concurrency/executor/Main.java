@@ -26,7 +26,7 @@ class Main {
 
 		ExecutorService executorService = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());
 
-		Set<Callable<String>> callables = new HashSet<Callable<String>>();
+		Set<Callable<String>> callables = new HashSet<>();
 
 		callables.add(() -> {
 			Thread.sleep(4000);
@@ -48,12 +48,10 @@ class Main {
 			e.printStackTrace();
 		}
 
-		for(Future<String> future : futures){
+		for(Future<String> future : futures != null ? futures : null){
 			try {
 				System.out.println("future.get = " + future.get());
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			} catch (ExecutionException e) {
+			} catch (InterruptedException | ExecutionException e) {
 				e.printStackTrace();
 			}
 		}
@@ -67,11 +65,7 @@ class Main {
 		log("main");
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		Future future = executorService.submit(new Callable(){
-			public Object call() throws Exception {
-				return "submitCallableExample";
-			}
-		});
+		Future future = executorService.submit((Callable) () -> "submitCallableExample");
 		executorService.shutdown();
 
 		try {
@@ -87,13 +81,10 @@ class Main {
 		log("main");
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		Future future = executorService.submit(new Runnable() {
-			@Override
-			public void run() {
-				long threadId = Thread.currentThread().getId();
-				log("new");
-			}
-		});
+		Future future = executorService.submit(() -> {
+            long threadId = Thread.currentThread().getId();
+            log("new");
+        });
 		executorService.shutdown();
 
 		try {
@@ -108,13 +99,10 @@ class Main {
 		log("main");
 
 		ExecutorService executorService = Executors.newSingleThreadExecutor();
-		executorService.execute(new Runnable() {
-			@Override
-			public void run() {
-				long threadId = Thread.currentThread().getId();
-				log("new");
-			}
-		});
+		executorService.execute(() -> {
+            long threadId = Thread.currentThread().getId();
+            log("new");
+        });
 		executorService.shutdown();
 	}
 

@@ -15,13 +15,12 @@ public class BlockingQueueTest {
     private Consumer consumer;
     private final int startInclusive = 0; //The (inclusive) initial value
     private final int endExclusive = 3; //The exclusive upper bound
-    private BlockingQueue<String> blockingQueue;
     private AtomicInteger produceCounter = new AtomicInteger(0);
     private AtomicInteger consumeCounter = new AtomicInteger(0);
 
     @Before
     public void setup() {
-        blockingQueue = new ArrayBlockingQueue(1024);
+        BlockingQueue<String> blockingQueue = new ArrayBlockingQueue(1024);
         producer = new Producer(blockingQueue);
         consumer = new Consumer(blockingQueue);
     }

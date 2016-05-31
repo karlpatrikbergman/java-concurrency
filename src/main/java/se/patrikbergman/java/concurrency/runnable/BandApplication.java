@@ -13,12 +13,8 @@ class BandApplication {
         john.setFellowBandMember(paul);
         paul.setFellowBandMember(john);
 
-        new Thread(() -> {
-            john.addressFellowBandMember();
-        }).start();
+        new Thread(john::addressFellowBandMember).start();
 
-        new Thread(() -> {
-            paul.addressFellowBandMember();
-        }).start();
+        new Thread(paul::addressFellowBandMember).start();
     }
 }
