@@ -9,7 +9,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class Main {
+class Main {
 
 	public static void main(String args[]) {
 
@@ -29,7 +29,7 @@ public class Main {
 		Set<Callable<String>> callables = new HashSet<Callable<String>>();
 
 		callables.add(() -> {
-			Thread.sleep(2000);
+			Thread.sleep(4000);
 			return "Task 1";
 		});
 		callables.add(() -> {

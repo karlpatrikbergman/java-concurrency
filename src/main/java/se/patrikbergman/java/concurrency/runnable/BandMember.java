@@ -13,16 +13,16 @@ class BandMember {
     }
 
     void addressFellowBandMember() {
-        log.info("{} is addressing {}", name, fellowBandMember.getName());
+        log.info("{} ({}) is addressing {}", name, this, fellowBandMember.getName());
         final String response = fellowBandMember.address("Hi from " + this.getName());
-        log.info("{} recieved response '{}''", name, response);
+        log.info("{} ({}) recieved response '{}''", name, this, response);
     }
 
     /**
      * Invoked by other BandMembers
      */
     String address(String message) {
-        log.info("{} received message '{}'", this.getName(), message);
+        log.info("{} ({}) received message '{}'", name, this, message);
         return "Yabadabadoo! (from " + this.getName() + ")";
     }
 

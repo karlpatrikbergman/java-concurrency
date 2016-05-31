@@ -1,0 +1,7 @@
+Of course the same instance can exist in different threads.
+76 [Thread-0] INFO BandMember - John (se.patrikbergman.java.concurrency.runnable.BandMember@6ce94179) is addressing Paul
+76 [Thread-1] INFO BandMember - Paul (se.patrikbergman.java.concurrency.runnable.BandMember@366cce2e) is addressing John
+78 [Thread-1] INFO BandMember - John (se.patrikbergman.java.concurrency.runnable.BandMember@6ce94179) received message 'Hi from Paul'
+78 [Thread-0] INFO BandMember - Paul (se.patrikbergman.java.concurrency.runnable.BandMember@366cce2e) received message 'Hi from John'
+78 [Thread-1] INFO BandMember - Paul (se.patrikbergman.java.concurrency.runnable.BandMember@366cce2e) recieved response 'Yabadabadoo! (from John)''
+78 [Thread-0] INFO BandMember - John (se.patrikbergman.java.concurrency.runnable.BandMember@6ce94179) recieved response 'Yabadabadoo! (from Paul)''
