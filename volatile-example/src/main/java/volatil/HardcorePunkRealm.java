@@ -1,7 +1,8 @@
-package se.patrikbergman.java.concurrency.volatil;
+package volatil;
+
+import lombok.extern.slf4j.Slf4j;
 
 /**
- * http://java.dzone.com/articles/java-volatile-keyword-0:
  * So what happens?
  * Each thread has its own stack, and so its own copy of variables it can access.
  * When the thread is created, it copies the value of all accessible variables in its own memory.
@@ -10,17 +11,20 @@ package se.patrikbergman.java.concurrency.volatil;
  * some threads.
  * The volatile force the thread to update the original variable for each variable.
  * The volatile keyword could be used on every kind of variable, either primitive or objects!
+ * http://java.dzone.com/articles/java-volatile-keyword-0:
  *
  * Try running this program with and without volatile MinorThreat.nrOfReleasedRecords!
  */
-public class HardcorePunkRealm {
+@Slf4j
+class HardcorePunkRealm {
 
+    @Slf4j
     static class MinorThreatFan extends Thread {
         private int nrOfPurchasedRecords = 0;
 
         @Override
         public void run() {
-            while(true) {
+            while(nrOfPurchasedRecords < 5) {
                 if(nrOfPurchasedRecords < MinorThreat.nrOfReleasedRecords) {
                     buyLatestRecord();
                 }
@@ -29,11 +33,12 @@ public class HardcorePunkRealm {
 
         private void buyLatestRecord() {
             nrOfPurchasedRecords++;
-            System.out.println("Fan bought Minor Threat release nr " + nrOfPurchasedRecords);
+            log.info("Fan bought Minor Threat release nr {}", nrOfPurchasedRecords);
         }
 
     }
 
+    @Slf4j
     static class MinorThreat extends Thread {
         static volatile int nrOfReleasedRecords = 0;
 
@@ -47,24 +52,30 @@ public class HardcorePunkRealm {
 
         private void releaseNewRecord() {
             nrOfReleasedRecords++;
-            System.out.println("Minor Thread released record nr " + nrOfReleasedRecords);
+            log.info("Minor Thread released record nr {}", nrOfReleasedRecords);
+            takeSomeTime(2000);
+
         }
 
         private void goOnTour() {
+            log.info("Minor Thread goes on tour");
+            takeSomeTime(2000);
+        }
+
+        private void takeSomeTime(long time) {
             try {
-                sleep(2000);
+                sleep(time);
             } catch (InterruptedException e) {
                 System.err.println(e.getMessage());
             }
         }
     }
 
-
     public static void main(String[] args) throws InterruptedException {
         MinorThreatFan minorThreatFan = new MinorThreatFan();
         minorThreatFan.start();
         MinorThreat minorThreat = new MinorThreat();
         minorThreat.start();
+        log.info("Now we are done in main thread");
     }
-
 }

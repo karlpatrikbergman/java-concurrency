@@ -1,4 +1,8 @@
-package se.patrikbergman.java.concurrency.basic.thread;
+package basic.thread;
+
+import lombok.extern.slf4j.Slf4j;
+
+import java.util.concurrent.TimeUnit;
 
 /**
  * Runnable or Thread?
@@ -9,19 +13,27 @@ package se.patrikbergman.java.concurrency.basic.thread;
  * When you call bandThread.start(), it starts a new thread and calls the run() method of bandThread internally to
  * execute it within that new thread.
  */
-class BandThread extends Thread {
+@Slf4j
+class MyThread extends Thread {
 
     /**
      * Thread implements Runnable but has an "empty" implementation of run()
      */
     @Override
     public void run() {
-        System.out.printf("%s is running!", BandThread.class.getSimpleName());
+        log.info("In {}.run()", this.getClass().getSimpleName());
+        long timeout = 5;
+        log.info("Sleeping for {} seconds....", timeout);
+        mySleep(timeout);
+        log.info("Woke up!");
     }
 
-    public static void main(String args[]) {
-        BandThread bandThread = new BandThread();
-        bandThread.start();
+    private void mySleep(long timemout) {
+        try {
+            TimeUnit.SECONDS.sleep(timemout);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
 }
