@@ -52,13 +52,13 @@ class HardcorePunkRealm {
 
         private void releaseNewRecord() {
             nrOfReleasedRecords++;
-            log.info("Minor Thread released record nr {}", nrOfReleasedRecords);
+            log.info("Minor Threat released record nr {}", nrOfReleasedRecords);
             takeSomeTime(2000);
 
         }
 
         private void goOnTour() {
-            log.info("Minor Thread goes on tour");
+            log.info("Minor Threat goes on tour");
             takeSomeTime(2000);
         }
 

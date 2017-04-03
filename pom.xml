@@ -12,6 +12,9 @@
     <modules>
         <module>basic-example</module>
         <module>volatile-example</module>
+        <module>completablefuture-example</module>
+        <module>blockingqueue-example</module>
+        <module>human-discussion</module>
     </modules>
 
     <properties>
